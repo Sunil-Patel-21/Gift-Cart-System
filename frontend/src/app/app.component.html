@@ -1,0 +1,11 @@
+<div class="app-container">
+  <nav class="navbar" *ngIf="isLoggedIn">
+    <a routerLink="/admin/dashboard">Dashboard</a>
+    <a routerLink="/admin/gifts">Gifts</a>
+    <a routerLink="/admin/categories">Categories</a>
+    <a routerLink="/admin/orders">Orders</a>
+    <button (click)="logout()">Logout</button>
+  </nav>
+  
+  <router-outlet></router-outlet>
+</div>

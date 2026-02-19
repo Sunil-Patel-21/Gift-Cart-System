@@ -1,0 +1,32 @@
+DATABASE SCHEMA RELATIONSHIPS - Gift Cart System
+
+1. USER → CART (One-to-One)
+   - Each user has ONE cart
+   - Cart.user references User._id
+   - Unique constraint on Cart.user
+
+2. USER → ORDER (One-to-Many)
+   - One user can have MULTIPLE orders
+   - Order.user references User._id
+   - No unique constraint (allows multiple orders)
+
+3. CATEGORY → GIFT (One-to-Many)
+   - One category contains MULTIPLE gifts
+   - Gift.category references Category._id
+
+4. CART → GIFT (Many-to-Many)
+   - Cart has items array
+   - Each item contains gift reference (Gift._id)
+   - Stores quantity and price snapshot
+
+5. ORDER → GIFT (Many-to-Many)
+   - Order has items array
+   - Each item contains gift reference (Gift._id)
+   - Stores gift name, quantity, and price snapshot
+   - Price stored to maintain historical data
+
+KEY POINTS:
+- Cart uses 'ref' to populate gift details dynamically
+- Order stores gift name/price to preserve order history even if gift is deleted
+- User password is hashed using bcrypt before saving
+- Timestamps (createdAt, updatedAt) auto-generated for all schemas

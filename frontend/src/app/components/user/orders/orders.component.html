@@ -1,0 +1,25 @@
+<div class="orders-page">
+  <h2>My Orders</h2>
+
+  <div *ngIf="orders.length === 0">
+    <p>No orders yet</p>
+    <a routerLink="/products" class="btn btn-primary">Start Shopping</a>
+  </div>
+
+  <div class="orders-list" *ngIf="orders.length > 0">
+    <div class="order-card" *ngFor="let order of orders">
+      <h3>Order ID: {{ order._id }}</h3>
+      <p>Date: {{ order.createdAt | date }}</p>
+      <p>Total: ₹{{ order.totalAmount }}</p>
+      <p>Status: <span class="badge">{{ order.orderStatus }}</span></p>
+      <p>Payment: {{ order.paymentMethod }} - {{ order.paymentStatus }}</p>
+      
+      <h4>Items:</h4>
+      <ul>
+        <li *ngFor="let item of order.items">
+          {{ item.name }} - Qty: {{ item.quantity }} - ₹{{ item.price }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

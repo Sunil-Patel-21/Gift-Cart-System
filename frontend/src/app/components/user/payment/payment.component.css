@@ -1,0 +1,37 @@
+/* Payment Component Styles */
+.payment-page {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.order-summary {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.payment-form {
+  margin-top: 20px;
+}
+
+.note {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
