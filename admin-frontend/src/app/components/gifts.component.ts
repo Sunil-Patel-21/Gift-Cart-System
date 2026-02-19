@@ -26,8 +26,11 @@ import { CategoryService } from '../services/category.service';
               <input type="number" [(ngModel)]="gift.price" name="price" required class="form-control">
             </div>
             <div class="form-group">
-              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Image URL</label>
-              <input type="text" [(ngModel)]="gift.image" name="image" class="form-control">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Image</label>
+              <input type="file" (change)="onImageSelect($event)" accept="image/*" class="form-control" style="padding: 10px;">
+              <div *ngIf="imagePreview" style="margin-top: 15px;">
+                <img [src]="imagePreview" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+              </div>
             </div>
             <div class="form-group">
               <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Category</label>
@@ -49,6 +52,7 @@ import { CategoryService } from '../services/category.service';
           <table class="table">
             <thead>
               <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
@@ -58,6 +62,7 @@ import { CategoryService } from '../services/category.service';
             </thead>
             <tbody>
               <tr *ngFor="let gift of gifts">
+                <td><img [src]="gift.image" alt="{{ gift.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;"></td>
                 <td style="font-weight: 600;">{{ gift.name }}</td>
                 <td>{{ gift.description }}</td>
                 <td style="color: #1e3c72; font-weight: 700;">₹{{ gift.price }}</td>
@@ -80,6 +85,8 @@ export class GiftsComponent implements OnInit {
   showForm: boolean = false;
   editMode: boolean = false;
   gift: any = { name: '', description: '', price: 0, image: '', category: '', stock: 0 };
+  imagePreview: string | null = null;
+  selectedFile: File | null = null;
 
   constructor(private giftService: GiftService, private categoryService: CategoryService) {}
 
@@ -100,6 +107,19 @@ export class GiftsComponent implements OnInit {
     });
   }
 
+  onImageSelect(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreview = e.target.result;
+        this.gift.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   openForm(): void {
     this.showForm = true;
     this.editMode = false;
@@ -110,6 +130,7 @@ export class GiftsComponent implements OnInit {
     this.showForm = true;
     this.editMode = true;
     this.gift = { ...gift, category: gift.category._id || gift.category };
+    this.imagePreview = gift.image;
   }
 
   saveGift(): void {
@@ -140,5 +161,7 @@ export class GiftsComponent implements OnInit {
 
   resetForm(): void {
     this.gift = { name: '', description: '', price: 0, image: '', category: '', stock: 0 };
+    this.imagePreview = null;
+    this.selectedFile = null;
   }
 }
