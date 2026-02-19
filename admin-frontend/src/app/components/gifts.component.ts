@@ -5,68 +5,72 @@ import { CategoryService } from '../services/category.service';
 @Component({
   selector: 'app-gifts',
   template: `
-    <div class="container">
-      <h2>Manage Gifts</h2>
-      <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">Add New Gift</button>
+    <div style="min-height: 100vh; padding: 40px 0; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+      <div class="container">
+        <h2 style="color: white; font-size: 42px; font-weight: 700; margin-bottom: 30px; text-align: center;">Manage Gifts</h2>
+        <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm" style="font-size: 16px; margin-bottom: 30px;">+ Add New Gift</button>
 
-      <div *ngIf="showForm" style="background: white; padding: 20px; margin: 20px 0; border-radius: 8px;">
-        <h3>{{ editMode ? 'Edit Gift' : 'Add New Gift' }}</h3>
-        <form (ngSubmit)="saveGift()">
-          <div class="form-group">
-            <label>Name</label>
-            <input type="text" [(ngModel)]="gift.name" name="name" required class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Description</label>
-            <textarea [(ngModel)]="gift.description" name="description" required class="form-control"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Price</label>
-            <input type="number" [(ngModel)]="gift.price" name="price" required class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Image URL</label>
-            <input type="text" [(ngModel)]="gift.image" name="image" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select [(ngModel)]="gift.category" name="category" required class="form-control">
-              <option value="">Select Category</option>
-              <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Stock</label>
-            <input type="number" [(ngModel)]="gift.stock" name="stock" required class="form-control">
-          </div>
-          <button type="submit" class="btn btn-success">{{ editMode ? 'Update' : 'Add' }} Gift</button>
-          <button type="button" class="btn btn-secondary" (click)="closeForm()">Cancel</button>
-        </form>
+        <div *ngIf="showForm" style="background: white; padding: 40px; margin: 20px 0; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+          <h3 style="font-size: 28px; font-weight: 700; color: #1e3c72; margin-bottom: 30px;">{{ editMode ? 'Edit Gift' : 'Add New Gift' }}</h3>
+          <form (ngSubmit)="saveGift()">
+            <div class="form-group">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Name</label>
+              <input type="text" [(ngModel)]="gift.name" name="name" required class="form-control">
+            </div>
+            <div class="form-group">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Description</label>
+              <textarea [(ngModel)]="gift.description" name="description" required class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Price</label>
+              <input type="number" [(ngModel)]="gift.price" name="price" required class="form-control">
+            </div>
+            <div class="form-group">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Image URL</label>
+              <input type="text" [(ngModel)]="gift.image" name="image" class="form-control">
+            </div>
+            <div class="form-group">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Category</label>
+              <select [(ngModel)]="gift.category" name="category" required class="form-control">
+                <option value="">Select Category</option>
+                <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Stock</label>
+              <input type="number" [(ngModel)]="gift.stock" name="stock" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">{{ editMode ? 'Update' : 'Add' }} Gift</button>
+            <button type="button" class="btn btn-secondary" (click)="closeForm()">Cancel</button>
+          </form>
+        </div>
+
+        <div *ngIf="!showForm" style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let gift of gifts">
+                <td style="font-weight: 600;">{{ gift.name }}</td>
+                <td>{{ gift.description }}</td>
+                <td style="color: #1e3c72; font-weight: 700;">₹{{ gift.price }}</td>
+                <td>{{ gift.stock }}</td>
+                <td>
+                  <button class="btn btn-sm btn-warning" (click)="editGift(gift)">Edit</button>
+                  <button class="btn btn-sm btn-danger" (click)="deleteGift(gift._id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <table class="table" *ngIf="!showForm">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let gift of gifts">
-            <td>{{ gift.name }}</td>
-            <td>{{ gift.description }}</td>
-            <td>₹{{ gift.price }}</td>
-            <td>{{ gift.stock }}</td>
-            <td>
-              <button class="btn btn-sm btn-warning" (click)="editGift(gift)">Edit</button>
-              <button class="btn btn-sm btn-danger" (click)="deleteGift(gift._id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   `
 })
