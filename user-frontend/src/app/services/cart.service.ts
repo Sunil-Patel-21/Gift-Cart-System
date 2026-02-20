@@ -23,6 +23,10 @@ export class CartService {
     return this.http.post(`${this.apiUrl}/add`, { giftId, quantity }, { headers: this.getHeaders() });
   }
 
+  updateQuantity(giftId: string, quantity: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update/${giftId}`, { quantity }, { headers: this.getHeaders() });
+  }
+
   removeFromCart(giftId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/remove/${giftId}`, { headers: this.getHeaders() });
   }

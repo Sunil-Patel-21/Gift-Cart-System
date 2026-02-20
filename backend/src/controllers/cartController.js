@@ -94,3 +94,30 @@ exports.clearCart = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Update item quantity
+// @route   PUT /api/cart/update/:giftId
+// @access  Private
+exports.updateQuantity = async (req, res) => {
+  try {
+    const { quantity } = req.body;
+    const cart = await Cart.findOne({ user: req.user._id });
+    
+    if (!cart) {
+      return res.status(404).json({ success: false, message: 'Cart not found' });
+    }
+
+    const item = cart.items.find(item => item.gift.toString() === req.params.giftId);
+    if (!item) {
+      return res.status(404).json({ success: false, message: 'Item not found in cart' });
+    }
+
+    item.quantity = quantity;
+    await cart.save();
+
+    const updatedCart = await Cart.findOne({ user: req.user._id }).populate('items.gift');
+    res.status(200).json({ success: true, message: 'Quantity updated', data: updatedCart });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
