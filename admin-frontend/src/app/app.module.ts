@@ -11,11 +11,13 @@ import { DashboardComponent } from './components/dashboard.component';
 import { GiftsComponent } from './components/gifts.component';
 import { CategoriesComponent } from './components/categories.component';
 import { OrdersComponent } from './components/orders.component';
+import { AnalyticsComponent } from './components/analytics.component';
 
 import { AuthService } from './services/auth.service';
 import { GiftService } from './services/gift.service';
 import { CategoryService } from './services/category.service';
 import { OrderService } from './services/order.service';
+import { AnalyticsService } from './services/analytics.service';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -26,7 +28,8 @@ import { AuthGuard } from './guards/auth.guard';
     DashboardComponent,
     GiftsComponent,
     CategoriesComponent,
-    OrdersComponent
+    OrdersComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +42,7 @@ import { AuthGuard } from './guards/auth.guard';
     GiftService,
     CategoryService,
     OrderService,
+    AnalyticsService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

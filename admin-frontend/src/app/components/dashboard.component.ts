@@ -7,6 +7,13 @@ import { Component } from '@angular/core';
       <div class="container">
         <h2 style="color: white; font-size: 48px; font-weight: 700; margin-bottom: 50px; text-align: center;">Admin Dashboard</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+          <a routerLink="/analytics" style="text-decoration: none;">
+            <div style="background: white; padding: 50px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+              <div style="font-size: 60px; margin-bottom: 20px;">📊</div>
+              <h3 style="font-size: 24px; font-weight: 700; color: #1e3c72; margin-bottom: 10px;">Analytics</h3>
+              <p style="color: #666;">View sales analytics</p>
+            </div>
+          </a>
           <a routerLink="/gifts" style="text-decoration: none;">
             <div style="background: white; padding: 50px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
               <div style="font-size: 60px; margin-bottom: 20px;">🎁</div>

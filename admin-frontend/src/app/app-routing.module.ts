@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard.component';
 import { GiftsComponent } from './components/gifts.component';
 import { CategoriesComponent } from './components/categories.component';
 import { OrdersComponent } from './components/orders.component';
+import { AnalyticsComponent } from './components/analytics.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'gifts', component: GiftsComponent, canActivate: [AuthGuard] },
   { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard] },
-  { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] }
+  { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
+  { path: 'analytics', component: AnalyticsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
