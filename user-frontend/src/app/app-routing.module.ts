@@ -10,6 +10,7 @@ import { OrdersComponent } from './components/orders.component';
 import { PaymentComponent } from './components/payment.component';
 import { OrderConfirmationComponent } from './components/order-confirmation.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { OrderTrackingComponent } from './components/order-tracking/order-tracking.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'payment/:orderId', component: PaymentComponent, canActivate: [AuthGuard] },
   { path: 'order-confirmation/:orderId', component: OrderConfirmationComponent, canActivate: [AuthGuard] },
-  { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] }
+  { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
+  { path: 'track-order/:id', component: OrderTrackingComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

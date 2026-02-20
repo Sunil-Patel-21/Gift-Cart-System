@@ -44,6 +44,14 @@ import { OrderService } from '../services/order.service';
             </div>
             
             <div style="display: flex; gap: 15px; padding-top: 15px; border-top: 1px solid #f0f0f0;">
+              <button 
+                (click)="$event.stopPropagation()" 
+                routerLink="/track-order/{{ order._id }}" 
+                style="flex: 1; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s;" 
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(102,126,234,0.4)'" 
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                📍 Track Order
+              </button>
               <div style="flex: 1; padding: 12px; background: #f8f9fa; border-radius: 10px;">
                 <div style="font-size: 12px; color: #999; margin-bottom: 4px;">Payment Method</div>
                 <div style="font-weight: 600; color: #333;">{{ order.paymentMethod }}</div>

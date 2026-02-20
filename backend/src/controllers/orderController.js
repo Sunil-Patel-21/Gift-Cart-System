@@ -33,15 +33,37 @@ exports.getOrder = async (req, res) => {
 // @access  Private/Admin
 exports.updateOrderStatus = async (req, res) => {
   try {
-    const { orderStatus, paymentStatus } = req.body;
+    const { orderStatus, paymentStatus, courierName, trackingNumber, estimatedDelivery } = req.body;
     const order = await Order.findById(req.params.id);
     
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
 
-    if (orderStatus) order.orderStatus = orderStatus;
+    if (orderStatus) {
+      order.orderStatus = orderStatus;
+      
+      const statusMessages = {
+        'confirmed': 'Your order has been confirmed',
+        'processing': 'Your order is being processed',
+        'shipped': 'Your order has been shipped',
+        'out_for_delivery': 'Your order is out for delivery',
+        'delivered': 'Your order has been delivered',
+        'cancelled': 'Your order has been cancelled'
+      };
+      
+      order.trackingInfo.statusHistory.push({
+        status: orderStatus,
+        message: statusMessages[orderStatus] || 'Order status updated',
+        timestamp: new Date()
+      });
+      order.trackingInfo.status = orderStatus;
+    }
+    
     if (paymentStatus) order.paymentStatus = paymentStatus;
+    if (courierName) order.trackingInfo.courierName = courierName;
+    if (trackingNumber) order.trackingInfo.trackingNumber = trackingNumber;
+    if (estimatedDelivery) order.trackingInfo.estimatedDelivery = estimatedDelivery;
 
     await order.save();
     res.status(200).json({ success: true, message: 'Order status updated', data: order });
@@ -81,12 +103,24 @@ exports.createOrder = async (req, res) => {
       price: item.price
     }));
 
+    const estimatedDelivery = new Date();
+    estimatedDelivery.setDate(estimatedDelivery.getDate() + 7);
+
     const order = await Order.create({
       user: req.user._id,
       items: orderItems,
       totalAmount: cart.totalAmount,
       shippingAddress,
-      paymentMethod: paymentMethod || 'COD'
+      paymentMethod: paymentMethod || 'COD',
+      trackingInfo: {
+        status: 'pending',
+        estimatedDelivery,
+        statusHistory: [{
+          status: 'pending',
+          message: 'Order placed successfully',
+          timestamp: new Date()
+        }]
+      }
     });
 
     cart.items = [];
