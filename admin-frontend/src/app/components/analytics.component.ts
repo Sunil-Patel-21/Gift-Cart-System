@@ -170,15 +170,18 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
         datasets: [{
           data: data,
           backgroundColor: [
-            '#667eea',
-            '#11998e',
-            '#f093fb',
-            '#4facfe',
-            '#43e97b',
-            '#fa709a'
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#9966FF',
+            '#FF9F40',
+            '#FF6384',
+            '#C9CBCF'
           ],
-          borderWidth: 2,
-          borderColor: '#fff'
+          borderWidth: 3,
+          borderColor: '#fff',
+          hoverOffset: 15
         }]
       },
       options: {
@@ -188,9 +191,18 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
           legend: {
             position: 'bottom',
             labels: {
-              padding: 15,
-              font: { size: 12 }
+              padding: 20,
+              font: { size: 13, weight: 'bold' },
+              usePointStyle: true,
+              pointStyle: 'circle'
             }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            cornerRadius: 8
           }
         }
       }
@@ -211,22 +223,64 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
         datasets: [{
           label: 'Units Sold',
           data: data,
-          backgroundColor: 'rgba(102, 126, 234, 0.8)',
-          borderColor: 'rgba(102, 126, 234, 1)',
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(255, 206, 86, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)'
+          ],
+          borderColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)'
+          ],
           borderWidth: 2,
-          borderRadius: 8
+          borderRadius: 10,
+          hoverBackgroundColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)'
+          ]
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: true,
         plugins: {
-          legend: { display: false }
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            cornerRadius: 8
+          }
         },
         scales: {
           y: {
             beginAtZero: true,
-            ticks: { precision: 0 }
+            ticks: { 
+              precision: 0,
+              font: { size: 12, weight: 'bold' },
+              color: '#666'
+            },
+            grid: {
+              color: 'rgba(0,0,0,0.05)'
+            }
+          },
+          x: {
+            ticks: {
+              font: { size: 12, weight: 'bold' },
+              color: '#666'
+            },
+            grid: {
+              display: false
+            }
           }
         }
       }
@@ -237,7 +291,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     const ctx = document.getElementById('orderStatusChart') as HTMLCanvasElement;
     if (!ctx || !this.analytics?.ordersByStatus) return;
 
-    const labels = this.analytics.ordersByStatus.map((s: any) => s._id);
+    const labels = this.analytics.ordersByStatus.map((s: any) => s._id.charAt(0).toUpperCase() + s._id.slice(1));
     const data = this.analytics.ordersByStatus.map((s: any) => s.count);
 
     this.orderStatusChart = new Chart(ctx, {
@@ -247,14 +301,17 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
         datasets: [{
           data: data,
           backgroundColor: [
-            '#f093fb',
-            '#4facfe',
-            '#43e97b',
-            '#11998e',
-            '#eb3349'
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#9966FF',
+            '#FF9F40'
           ],
-          borderWidth: 2,
-          borderColor: '#fff'
+          borderWidth: 3,
+          borderColor: '#fff',
+          hoverOffset: 10,
+          hoverBorderWidth: 4
         }]
       },
       options: {
@@ -264,8 +321,26 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
           legend: {
             position: 'bottom',
             labels: {
-              padding: 15,
-              font: { size: 12 }
+              padding: 20,
+              font: { size: 13, weight: 'bold' },
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            cornerRadius: 8,
+            callbacks: {
+              label: function(context: any) {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+                const percentage = ((value / total) * 100).toFixed(1);
+                return label + ': ' + value + ' (' + percentage + '%)';
+              }
             }
           }
         }
