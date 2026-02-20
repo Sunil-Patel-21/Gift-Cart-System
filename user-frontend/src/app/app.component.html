@@ -1,12 +1,25 @@
 <div class="app-container">
-  <nav class="navbar" *ngIf="isLoggedIn" style="background-color: #333; padding: 15px; display: flex; gap: 20px; align-items: center;">
-    <a routerLink="/home" style="color: white; text-decoration: none; padding: 8px 15px;">Home</a>
-    <a routerLink="/products" style="color: white; text-decoration: none; padding: 8px 15px;">Products</a>
-    <a routerLink="/wishlist" style="color: white; text-decoration: none; padding: 8px 15px;">❤️ Wishlist</a>
-    <a routerLink="/cart" style="color: white; text-decoration: none; padding: 8px 15px;">Cart</a>
-    <a routerLink="/orders" style="color: white; text-decoration: none; padding: 8px 15px;">My Orders</a>
-    <button class="btn btn-secondary" (click)="logout()" style="margin-left: auto;">Logout</button>
+  <nav class="navbar" *ngIf="isLoggedIn" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px 30px; display: flex; gap: 20px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+    <a routerLink="/home" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">Home</a>
+    <a routerLink="/products" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">Products</a>
+    
+    <!-- Search Bar -->
+    <div style="flex: 1; max-width: 500px; margin: 0 20px;">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (keyup.enter)="onSearch()" 
+        placeholder="🔍 Search for gifts..." 
+        style="width: 100%; padding: 12px 20px; border-radius: 25px; border: none; font-size: 14px; outline: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    </div>
+    
+    <a routerLink="/wishlist" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">❤️ Wishlist</a>
+    <a routerLink="/cart" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">🛒 Cart</a>
+    <a routerLink="/orders" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">My Orders</a>
+    <button class="btn btn-secondary" (click)="logout()" style="margin-left: auto; background: white; color: #667eea; border: none; padding: 10px 25px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Logout</button>
   </nav>
   
-  <router-outlet></router-outlet>
+  <div style="padding-top: 70px;">
+    <router-outlet></router-outlet>
+  </div>
 </div>
