@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GiftService } from '../services/gift.service';
 import { CategoryService } from '../services/category.service';
 import { CartService } from '../services/cart.service';
+import { WishlistService } from '../services/wishlist.service';
 
 @Component({
   selector: 'app-products',
@@ -122,13 +123,22 @@ import { CartService } from '../services/cart.service';
                     {{ gift.stock > 0 ? 'In Stock: ' + gift.stock : 'Out of Stock' }}
                   </div>
                 </div>
-                <button 
-                  class="btn btn-primary" 
-                  (click)="addToCart(gift._id); $event.stopPropagation()" 
-                  [disabled]="gift.stock === 0"
-                  style="padding: 12px 28px; font-size: 14px; font-weight: 700; white-space: nowrap;">
-                  {{ gift.stock > 0 ? '🛒 Add' : 'Unavailable' }}
-                </button>
+                <div style="display: flex; gap: 8px;">
+                  <button 
+                    (click)="toggleWishlist(gift._id); $event.stopPropagation()" 
+                    [style.background]="isInWishlist(gift._id) ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' : '#f0f0f0'"
+                    [style.color]="isInWishlist(gift._id) ? 'white' : '#666'"
+                    style="border: none; width: 45px; height: 45px; border-radius: 10px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
+                    {{ isInWishlist(gift._id) ? '❤️' : '🤍' }}
+                  </button>
+                  <button 
+                    class="btn btn-primary" 
+                    (click)="addToCart(gift._id); $event.stopPropagation()" 
+                    [disabled]="gift.stock === 0"
+                    style="padding: 12px 28px; font-size: 14px; font-weight: 700; white-space: nowrap;">
+                    {{ gift.stock > 0 ? '🛒 Add' : 'Unavailable' }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -175,15 +185,19 @@ export class ProductsComponent implements OnInit {
     }
   ];
 
+  wishlistItems: string[] = [];
+
   constructor(
     private giftService: GiftService,
     private categoryService: CategoryService,
-    private cartService: CartService
+    private cartService: CartService,
+    private wishlistService: WishlistService
   ) {}
 
   ngOnInit(): void {
     this.loadGifts();
     this.loadCategories();
+    this.loadWishlist();
     this.startAutoSlide();
   }
 
@@ -245,5 +259,38 @@ export class ProductsComponent implements OnInit {
     setInterval(() => {
       this.nextSlide();
     }, 2000);
+  }
+
+  loadWishlist(): void {
+    this.wishlistService.getWishlist().subscribe({
+      next: (data) => {
+        this.wishlistItems = data.gifts.map((g: any) => g._id);
+      },
+      error: () => {}
+    });
+  }
+
+  isInWishlist(giftId: string): boolean {
+    return this.wishlistItems.includes(giftId);
+  }
+
+  toggleWishlist(giftId: string): void {
+    if (this.isInWishlist(giftId)) {
+      this.wishlistService.removeFromWishlist(giftId).subscribe({
+        next: () => {
+          this.wishlistItems = this.wishlistItems.filter(id => id !== giftId);
+          alert('Removed from wishlist!');
+        },
+        error: () => alert('Please login to manage wishlist')
+      });
+    } else {
+      this.wishlistService.addToWishlist(giftId).subscribe({
+        next: () => {
+          this.wishlistItems.push(giftId);
+          alert('Added to wishlist!');
+        },
+        error: () => alert('Please login to manage wishlist')
+      });
+    }
   }
 }

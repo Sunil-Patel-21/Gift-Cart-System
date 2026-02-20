@@ -26,6 +26,7 @@ app.use('/api/users', require('./src/routes/users'));
 app.use('/api/gifts', require('./src/routes/gifts'));
 app.use('/api/categories', require('./src/routes/categories'));
 app.use('/api/cart', require('./src/routes/cart'));
+app.use('/api/wishlist', require('./src/routes/wishlist'));
 app.use('/api/orders', require('./src/routes/orders'));
 app.use('/api/payment', require('./src/routes/payment'));
 app.use('/api/admin', require('./src/routes/admin'));

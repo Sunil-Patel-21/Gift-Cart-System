@@ -1,0 +1,36 @@
+<div class="wishlist-container">
+  <h1>My Wishlist</h1>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading && wishlist.gifts.length === 0" class="empty-wishlist">
+    <i class="fas fa-heart-broken"></i>
+    <h2>Your wishlist is empty</h2>
+    <p>Save your favorite gifts here</p>
+    <button routerLink="/products" class="btn-primary">Browse Gifts</button>
+  </div>
+
+  <div *ngIf="!loading && wishlist.gifts.length > 0" class="wishlist-grid">
+    <div *ngFor="let gift of wishlist.gifts" class="wishlist-card">
+      <button class="remove-btn" (click)="removeFromWishlist(gift._id)">
+        <i class="fas fa-times"></i>
+      </button>
+      <img [src]="gift.image" [alt]="gift.name">
+      <div class="card-content">
+        <h3>{{ gift.name }}</h3>
+        <p class="description">{{ gift.description }}</p>
+        <div class="price-section">
+          <span class="price">₹{{ gift.price }}</span>
+          <span *ngIf="gift.stock > 0" class="stock in-stock">In Stock</span>
+          <span *ngIf="gift.stock === 0" class="stock out-stock">Out of Stock</span>
+        </div>
+        <button 
+          class="btn-cart" 
+          (click)="moveToCart(gift._id)"
+          [disabled]="gift.stock === 0">
+          <i class="fas fa-shopping-cart"></i> Move to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

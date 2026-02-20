@@ -15,6 +15,7 @@ import { OrdersComponent } from './components/orders.component';
 import { PaymentComponent } from './components/payment.component';
 import { OrderConfirmationComponent } from './components/order-confirmation.component';
 import { GiftModalComponent } from './components/gift-modal.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 import { AuthService } from './services/auth.service';
 import { GiftService } from './services/gift.service';
@@ -22,6 +23,7 @@ import { CategoryService } from './services/category.service';
 import { CartService } from './services/cart.service';
 import { OrderService } from './services/order.service';
 import { PaymentService } from './services/payment.service';
+import { WishlistService } from './services/wishlist.service';
 import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
@@ -36,7 +38,8 @@ import { AuthGuard } from './guards/auth.guard';
     OrdersComponent,
     PaymentComponent,
     OrderConfirmationComponent,
-    GiftModalComponent
+    GiftModalComponent,
+    WishlistComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import { AuthGuard } from './guards/auth.guard';
     CartService,
     OrderService,
     PaymentService,
+    WishlistService,
     AuthGuard
   ],
   bootstrap: [AppComponent]
