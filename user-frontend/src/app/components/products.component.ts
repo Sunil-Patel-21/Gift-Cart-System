@@ -3,6 +3,7 @@ import { GiftService } from '../services/gift.service';
 import { CategoryService } from '../services/category.service';
 import { CartService } from '../services/cart.service';
 import { WishlistService } from '../services/wishlist.service';
+import { ToastService } from '../services/toast.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -185,7 +186,8 @@ export class ProductsComponent implements OnInit {
     private categoryService: CategoryService,
     private cartService: CartService,
     private wishlistService: WishlistService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -238,8 +240,8 @@ export class ProductsComponent implements OnInit {
 
   addToCart(giftId: string): void {
     this.cartService.addToCart(giftId, 1).subscribe({
-      next: () => { alert('Added to cart!'); },
-      error: () => { alert('Please login to add items to cart'); }
+      next: () => { this.toastService.success('Added to cart!'); },
+      error: () => { this.toastService.error('Please login to add items to cart'); }
     });
   }
 
@@ -289,17 +291,17 @@ export class ProductsComponent implements OnInit {
       this.wishlistService.removeFromWishlist(giftId).subscribe({
         next: () => {
           this.wishlistItems = this.wishlistItems.filter(id => id !== giftId);
-          alert('Removed from wishlist!');
+          this.toastService.success('Removed from wishlist!');
         },
-        error: () => alert('Please login to manage wishlist')
+        error: () => this.toastService.error('Please login to manage wishlist')
       });
     } else {
       this.wishlistService.addToWishlist(giftId).subscribe({
         next: () => {
           this.wishlistItems.push(giftId);
-          alert('Added to wishlist!');
+          this.toastService.success('Added to wishlist!');
         },
-        error: () => alert('Please login to manage wishlist')
+        error: () => this.toastService.error('Please login to manage wishlist')
       });
     }
   }

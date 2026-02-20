@@ -19,6 +19,7 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrderTrackingComponent } from './components/order-tracking/order-tracking.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FooterComponent } from './components/footer.component';
+import { ToastComponent } from './components/toast.component';
 
 import { AuthService } from './services/auth.service';
 import { GiftService } from './services/gift.service';
@@ -28,6 +29,7 @@ import { OrderService } from './services/order.service';
 import { PaymentService } from './services/payment.service';
 import { WishlistService } from './services/wishlist.service';
 import { UserService } from './services/user.service';
+import { ToastService } from './services/toast.service';
 import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
@@ -46,7 +48,8 @@ import { AuthGuard } from './guards/auth.guard';
     WishlistComponent,
     OrderTrackingComponent,
     ProfileComponent,
-    FooterComponent
+    FooterComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
@@ -63,6 +66,7 @@ import { AuthGuard } from './guards/auth.guard';
     PaymentService,
     WishlistService,
     UserService,
+    ToastService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

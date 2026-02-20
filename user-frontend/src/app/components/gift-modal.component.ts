@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CartService } from '../services/cart.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-gift-modal',
@@ -14,7 +15,7 @@ export class GiftModalComponent {
   quantity: number = 1; // Selected quantity (default 1)
   isAddingToCart: boolean = false; // Loading state for add to cart
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private toastService: ToastService) {}
 
   /**
    * Increase quantity by 1
@@ -42,12 +43,12 @@ export class GiftModalComponent {
     this.cartService.addToCart(this.gift._id, this.quantity).subscribe({
       next: () => {
         this.isAddingToCart = false;
-        alert(`${this.gift.name} added to cart!`);
+        this.toastService.success(`${this.gift.name} added to cart!`);
         this.close();
       },
       error: () => {
         this.isAddingToCart = false;
-        alert('Please login to add items to cart');
+        this.toastService.error('Please login to add items to cart');
       }
     });
   }
