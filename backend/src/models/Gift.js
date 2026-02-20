@@ -21,8 +21,8 @@ const giftSchema = new mongoose.Schema({
     required: [true, 'Category is required']
   },
   image: {
-    type: String,
-    default: 'default-gift.jpg'
+    type: [String],
+    default: ['default-gift.jpg']
   },
   stock: {
     type: Number,

@@ -14,8 +14,41 @@ export class GiftModalComponent {
   
   quantity: number = 1; // Selected quantity (default 1)
   isAddingToCart: boolean = false; // Loading state for add to cart
+  selectedImageIndex: number = 0; // Current selected image index
 
   constructor(private cartService: CartService, private toastService: ToastService) {}
+
+  selectImage(index: number): void {
+    this.selectedImageIndex = index;
+  }
+
+  nextImage(): void {
+    const images = this.getImages();
+    if (images.length > 1) {
+      this.selectedImageIndex = (this.selectedImageIndex + 1) % images.length;
+    }
+  }
+
+  prevImage(): void {
+    const images = this.getImages();
+    if (images.length > 1) {
+      this.selectedImageIndex = this.selectedImageIndex === 0 
+        ? images.length - 1 
+        : this.selectedImageIndex - 1;
+    }
+  }
+
+  getImages(): string[] {
+    if (!this.gift || !this.gift.image) {
+      return ['https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=600'];
+    }
+    return Array.isArray(this.gift.image) ? this.gift.image : [this.gift.image];
+  }
+
+  getCurrentImage(): string {
+    const images = this.getImages();
+    return images[this.selectedImageIndex] || images[0];
+  }
 
   /**
    * Increase quantity by 1
@@ -58,6 +91,7 @@ export class GiftModalComponent {
    */
   close(): void {
     this.quantity = 1;
+    this.selectedImageIndex = 0;
     this.closeModal.emit();
   }
 

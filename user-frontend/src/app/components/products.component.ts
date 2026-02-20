@@ -86,7 +86,7 @@ import { Router } from '@angular/router';
               
               <div style="position: relative; overflow: hidden; height: 220px; background: #f5f5f5;">
                 <img 
-                  [src]="gift.image || 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400'" 
+                  [src]="(gift.image && gift.image[0]) || gift.image || 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400'" 
                   [alt]="gift.name" 
                   style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
                   onmouseover="this.style.transform='scale(1.08)'"
@@ -100,6 +100,8 @@ import { Router } from '@angular/router';
                      style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
                   Out of Stock
                 </div>
+                
+
               </div>
 
               <div style="padding: 20px;">

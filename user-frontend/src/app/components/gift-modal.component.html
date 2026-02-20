@@ -18,9 +18,23 @@
       <!-- Left Side - Gift Image -->
       <div class="image-section">
         <img 
-          [src]="gift.image || 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=600'" 
+          [src]="getCurrentImage()" 
           [alt]="gift.name"
           class="gift-image">
+        
+        <!-- Navigation Arrows -->
+        <button *ngIf="getImages().length > 1" 
+                (click)="prevImage(); $event.stopPropagation()" 
+                class="nav-arrow left"
+                aria-label="Previous image">
+          ‹
+        </button>
+        <button *ngIf="getImages().length > 1" 
+                (click)="nextImage(); $event.stopPropagation()" 
+                class="nav-arrow right"
+                aria-label="Next image">
+          ›
+        </button>
         
         <!-- Stock Badge -->
         <div *ngIf="gift.stock < 10 && gift.stock > 0" class="stock-badge low-stock">
@@ -28,6 +42,16 @@
         </div>
         <div *ngIf="gift.stock === 0" class="stock-badge out-of-stock">
           Out of Stock
+        </div>
+        
+        <!-- Thumbnail Gallery -->
+        <div *ngIf="getImages().length > 1" class="thumbnail-gallery">
+          <img *ngFor="let img of getImages(); let i = index"
+               [src]="img"
+               [alt]="gift.name + ' - Image ' + (i + 1)"
+               [class.active]="i === selectedImageIndex"
+               (click)="selectImage(i); $event.stopPropagation()"
+               class="thumbnail">
         </div>
       </div>
 

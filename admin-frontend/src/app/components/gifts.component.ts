@@ -26,10 +26,10 @@ import { CategoryService } from '../services/category.service';
               <input type="number" [(ngModel)]="gift.price" name="price" required class="form-control">
             </div>
             <div class="form-group">
-              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Image</label>
-              <input type="file" (change)="onImageSelect($event)" accept="image/*" class="form-control" style="padding: 10px;">
-              <div *ngIf="imagePreview" style="margin-top: 15px;">
-                <img [src]="imagePreview" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+              <label style="font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Images (Multiple)</label>
+              <input type="file" (change)="onImageSelect($event)" accept="image/*" multiple class="form-control" style="padding: 10px;">
+              <div *ngIf="imagePreviews.length > 0" style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                <img *ngFor="let preview of imagePreviews" [src]="preview" alt="Preview" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
               </div>
             </div>
             <div class="form-group">
@@ -62,7 +62,7 @@ import { CategoryService } from '../services/category.service';
             </thead>
             <tbody>
               <tr *ngFor="let gift of gifts">
-                <td><img [src]="gift.image" alt="{{ gift.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;"></td>
+                <td><img [src]="(gift.image && gift.image[0]) || gift.image || 'default.jpg'" alt="{{ gift.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;"></td>
                 <td style="font-weight: 600;">{{ gift.name }}</td>
                 <td>{{ gift.description }}</td>
                 <td style="color: #1e3c72; font-weight: 700;">₹{{ gift.price }}</td>
@@ -84,8 +84,8 @@ export class GiftsComponent implements OnInit {
   categories: any[] = [];
   showForm: boolean = false;
   editMode: boolean = false;
-  gift: any = { name: '', description: '', price: 0, image: '', category: '', stock: 0 };
-  imagePreview: string | null = null;
+  gift: any = { name: '', description: '', price: 0, image: [], category: '', stock: 0 };
+  imagePreviews: string[] = [];
   selectedFile: File | null = null;
 
   constructor(private giftService: GiftService, private categoryService: CategoryService) {}
@@ -108,15 +108,17 @@ export class GiftsComponent implements OnInit {
   }
 
   onImageSelect(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
+    const files = event.target.files;
+    this.imagePreviews = [];
+    this.gift.image = [];
+    
+    for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.imagePreview = e.target.result;
-        this.gift.image = e.target.result;
+        this.imagePreviews.push(e.target.result);
+        this.gift.image.push(e.target.result);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(files[i]);
     }
   }
 
@@ -130,7 +132,7 @@ export class GiftsComponent implements OnInit {
     this.showForm = true;
     this.editMode = true;
     this.gift = { ...gift, category: gift.category._id || gift.category };
-    this.imagePreview = gift.image;
+    this.imagePreviews = Array.isArray(gift.image) ? gift.image : [gift.image];
   }
 
   saveGift(): void {
@@ -160,8 +162,8 @@ export class GiftsComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.gift = { name: '', description: '', price: 0, image: '', category: '', stock: 0 };
-    this.imagePreview = null;
+    this.gift = { name: '', description: '', price: 0, image: [], category: '', stock: 0 };
+    this.imagePreviews = [];
     this.selectedFile = null;
   }
 }
