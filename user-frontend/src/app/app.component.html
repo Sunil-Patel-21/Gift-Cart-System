@@ -1,30 +1,87 @@
 <div class="app-container">
-  <nav class="navbar" *ngIf="isLoggedIn" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px 30px; display: flex; gap: 20px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-    <a routerLink="/home" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">Home</a>
-    <a routerLink="/products" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">Products</a>
-    
-    <!-- Search Bar -->
-    <div style="flex: 1; max-width: 500px; margin: 0 20px;">
-      <input 
-        type="text" 
-        [(ngModel)]="searchTerm" 
-        (keyup.enter)="onSearch()" 
-        placeholder="🔍 Search for gifts..." 
-        style="width: 100%; padding: 12px 20px; border-radius: 25px; border: none; font-size: 14px; outline: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  <nav class="navbar" *ngIf="isLoggedIn" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); animation: slideDown 0.5s ease;">
+    <div style="max-width: 1400px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 20px;">
+      <!-- Logo/Brand -->
+      <a routerLink="/home" style="color: white; text-decoration: none; font-size: 24px; font-weight: 800; margin-right: 20px; transition: all 0.3s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='scale(1.1)'; this.style.textShadow='0 0 20px rgba(255,255,255,0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.textShadow='none'">
+        <span style="font-size: 28px;">🎁</span>
+        <span>GiftCart</span>
+      </a>
+      
+      <!-- Search Bar -->
+      <div style="flex: 1; max-width: 500px; position: relative;">
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          (keyup.enter)="onSearch()" 
+          (focus)="searchFocused = true"
+          (blur)="searchFocused = false"
+          placeholder="🔍 Search for gifts..." 
+          [style.transform]="searchFocused ? 'scale(1.02)' : 'scale(1)'"
+          style="width: 100%; padding: 10px 20px; border-radius: 25px; border: none; font-size: 14px; outline: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+      </div>
+      
+      <!-- Navigation Links -->
+      <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+        <a routerLink="/products" 
+           style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s; white-space: nowrap;" 
+           onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'; this.style.transform='translateY(-2px)'" 
+           onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)'">Products</a>
+        
+        <a routerLink="/wishlist" 
+           style="color: white; text-decoration: none; padding: 8px 15px; font-size: 20px; transition: all 0.3s; white-space: nowrap; display: flex; align-items: center; gap: 5px;" 
+           onmouseover="this.style.transform='scale(1.3) rotate(10deg)'; this.style.filter='drop-shadow(0 0 10px rgba(255,100,100,0.8))'" 
+           onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.filter='none'">
+          <span style="font-size: 20px;">❤️</span>
+          <span style="font-size: 14px; font-weight: 600;">Wishlist</span>
+        </a>
+        
+        <a routerLink="/cart" 
+           style="color: white; text-decoration: none; padding: 8px 15px; font-size: 20px; transition: all 0.3s; white-space: nowrap; display: flex; align-items: center; gap: 5px;" 
+           onmouseover="this.style.transform='scale(1.2) translateY(-3px)'; this.style.filter='drop-shadow(0 5px 10px rgba(255,255,255,0.5))'" 
+           onmouseout="this.style.transform='scale(1) translateY(0)'; this.style.filter='none'">
+          <span style="font-size: 20px;">🛒</span>
+          <span style="font-size: 14px; font-weight: 600;">Cart</span>
+        </a>
+        
+        <a routerLink="/orders" 
+           style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s; white-space: nowrap;" 
+           onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'; this.style.transform='translateY(-2px)'" 
+           onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)'">Orders</a>
+        
+        <!-- Profile Avatar -->
+        <a routerLink="/profile" 
+           style="display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; transition: all 0.3s;" 
+           onmouseover="this.querySelector('img, span').style.transform='rotate(360deg) scale(1.1)'; this.querySelector('img, span').style.boxShadow='0 0 20px rgba(255,255,255,0.8)'" 
+           onmouseout="this.querySelector('img, span').style.transform='rotate(0deg) scale(1)'; this.querySelector('img, span').style.boxShadow='none'">
+          <img *ngIf="userProfilePicture" 
+               [src]="userProfilePicture" 
+               alt="Profile" 
+               style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; object-fit: cover; transition: all 0.5s ease;">
+          <span *ngIf="!userProfilePicture" 
+                style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); transition: all 0.5s ease;">👤</span>
+          <span style="font-size: 14px; font-weight: 600;">Profile</span>
+        </a>
+        
+        <button (click)="logout()" 
+                style="background: white; color: #667eea; border: none; padding: 8px 20px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s; white-space: nowrap; box-shadow: 0 2px 10px rgba(0,0,0,0.1);" 
+                onmouseover="this.style.transform='scale(1.05) translateY(-2px)'; this.style.boxShadow='0 5px 20px rgba(255,255,255,0.3)'" 
+                onmouseout="this.style.transform='scale(1) translateY(0)'; this.style.boxShadow='0 2px 10px rgba(0,0,0,0.1)'">Logout</button>
+      </div>
     </div>
-    
-    <a routerLink="/wishlist" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">❤️ Wishlist</a>
-    <a routerLink="/cart" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">🛒 Cart</a>
-    <a routerLink="/orders" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">My Orders</a>
-    
-    <a routerLink="/profile" style="display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">
-      <img *ngIf="userProfilePicture" [src]="userProfilePicture" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; object-fit: cover;">
-      <span *ngIf="!userProfilePicture">👤</span>
-      Profile
-    </a>
-    
-    <button class="btn btn-secondary" (click)="logout()" style="margin-left: auto; background: white; color: #667eea; border: none; padding: 10px 25px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Logout</button>
   </nav>
+  
+  <style>
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
   
   <div style="padding-top: 70px;">
     <router-outlet></router-outlet>

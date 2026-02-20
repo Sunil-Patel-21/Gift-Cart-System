@@ -13,6 +13,7 @@ export class AppComponent {
   isLoggedIn: boolean = false;
   searchTerm: string = '';
   userProfilePicture: string = '';
+  searchFocused: boolean = false;
 
   constructor(
     private authService: AuthService, 
