@@ -18,17 +18,20 @@ export class GiftModalComponent {
   isZoomed: boolean = false; // Zoom state
   zoomX: number = 0; // Zoom X position
   zoomY: number = 0; // Zoom Y position
+  imageLoading: boolean = true; // Image loading state
 
   constructor(private cartService: CartService, private toastService: ToastService) {}
 
   selectImage(index: number): void {
     this.selectedImageIndex = index;
+    this.imageLoading = true;
   }
 
   nextImage(): void {
     const images = this.getImages();
     if (images.length > 1) {
       this.selectedImageIndex = (this.selectedImageIndex + 1) % images.length;
+      this.imageLoading = true;
     }
   }
 
@@ -38,6 +41,7 @@ export class GiftModalComponent {
       this.selectedImageIndex = this.selectedImageIndex === 0 
         ? images.length - 1 
         : this.selectedImageIndex - 1;
+      this.imageLoading = true;
     }
   }
 
@@ -66,6 +70,10 @@ export class GiftModalComponent {
 
   onMouseLeave(): void {
     this.isZoomed = false;
+  }
+
+  onImageLoad(): void {
+    this.imageLoading = false;
   }
 
   /**

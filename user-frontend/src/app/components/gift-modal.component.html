@@ -21,11 +21,19 @@
              (mousemove)="onMouseMove($event)"
              (mouseenter)="onMouseEnter()"
              (mouseleave)="onMouseLeave()">
+          
+          <!-- Loading Spinner -->
+          <div *ngIf="imageLoading" class="image-loader">
+            <div class="spinner"></div>
+          </div>
+          
           <img 
             [src]="getCurrentImage()" 
             [alt]="gift.name"
             [style.transform]="isZoomed ? 'scale(2)' : 'scale(1)'"
             [style.transform-origin]="isZoomed ? zoomX + '% ' + zoomY + '%' : 'center'"
+            [style.opacity]="imageLoading ? '0' : '1'"
+            (load)="onImageLoad()"
             class="gift-image">
         
           <!-- Navigation Arrows -->

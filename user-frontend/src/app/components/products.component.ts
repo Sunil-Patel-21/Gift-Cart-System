@@ -85,23 +85,25 @@ import { Router } from '@angular/router';
                  (click)="openGiftModal(gift)">
               
               <div style="position: relative; overflow: hidden; height: 220px; background: #f5f5f5;">
+                <div class="skeleton" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite;"></div>
+                
                 <img 
                   [src]="(gift.image && gift.image[0]) || gift.image || 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400'" 
                   [alt]="gift.name" 
-                  style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
+                  loading="lazy"
+                  (load)="$event.target.style.opacity='1'; $event.target.previousElementSibling.style.display='none'"
+                  style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0; position: relative; z-index: 1;"
                   onmouseover="this.style.transform='scale(1.08)'"
                   onmouseout="this.style.transform='scale(1)'">
                 
                 <div *ngIf="gift.stock < 10 && gift.stock > 0" 
-                     style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
+                     style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; box-shadow: 0 3px 10px rgba(0,0,0,0.2); z-index: 2;">
                   Only {{ gift.stock }} left!
                 </div>
                 <div *ngIf="gift.stock === 0" 
-                     style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
+                     style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; box-shadow: 0 3px 10px rgba(0,0,0,0.2); z-index: 2;">
                   Out of Stock
                 </div>
-                
-
               </div>
 
               <div style="padding: 20px;">
