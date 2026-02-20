@@ -17,6 +17,7 @@ import { OrderConfirmationComponent } from './components/order-confirmation.comp
 import { GiftModalComponent } from './components/gift-modal.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrderTrackingComponent } from './components/order-tracking/order-tracking.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { FooterComponent } from './components/footer.component';
 
 import { AuthService } from './services/auth.service';
@@ -26,6 +27,7 @@ import { CartService } from './services/cart.service';
 import { OrderService } from './services/order.service';
 import { PaymentService } from './services/payment.service';
 import { WishlistService } from './services/wishlist.service';
+import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
@@ -43,6 +45,7 @@ import { AuthGuard } from './guards/auth.guard';
     GiftModalComponent,
     WishlistComponent,
     OrderTrackingComponent,
+    ProfileComponent,
     FooterComponent
   ],
   imports: [
@@ -59,6 +62,7 @@ import { AuthGuard } from './guards/auth.guard';
     OrderService,
     PaymentService,
     WishlistService,
+    UserService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

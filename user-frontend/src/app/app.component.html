@@ -16,6 +16,13 @@
     <a routerLink="/wishlist" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">❤️ Wishlist</a>
     <a routerLink="/cart" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">🛒 Cart</a>
     <a routerLink="/orders" style="color: white; text-decoration: none; padding: 8px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">My Orders</a>
+    
+    <a routerLink="/profile" style="display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 15px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.borderRadius='8px'" onmouseout="this.style.background='transparent'">
+      <img *ngIf="userProfilePicture" [src]="userProfilePicture" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; object-fit: cover;">
+      <span *ngIf="!userProfilePicture">👤</span>
+      Profile
+    </a>
+    
     <button class="btn btn-secondary" (click)="logout()" style="margin-left: auto; background: white; color: #667eea; border: none; padding: 10px 25px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Logout</button>
   </nav>
   
