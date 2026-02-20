@@ -15,6 +15,9 @@ export class GiftModalComponent {
   quantity: number = 1; // Selected quantity (default 1)
   isAddingToCart: boolean = false; // Loading state for add to cart
   selectedImageIndex: number = 0; // Current selected image index
+  isZoomed: boolean = false; // Zoom state
+  zoomX: number = 0; // Zoom X position
+  zoomY: number = 0; // Zoom Y position
 
   constructor(private cartService: CartService, private toastService: ToastService) {}
 
@@ -48,6 +51,21 @@ export class GiftModalComponent {
   getCurrentImage(): string {
     const images = this.getImages();
     return images[this.selectedImageIndex] || images[0];
+  }
+
+  onMouseMove(event: MouseEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    this.zoomX = ((event.clientX - rect.left) / rect.width) * 100;
+    this.zoomY = ((event.clientY - rect.top) / rect.height) * 100;
+  }
+
+  onMouseEnter(): void {
+    this.isZoomed = true;
+  }
+
+  onMouseLeave(): void {
+    this.isZoomed = false;
   }
 
   /**
@@ -92,6 +110,7 @@ export class GiftModalComponent {
   close(): void {
     this.quantity = 1;
     this.selectedImageIndex = 0;
+    this.isZoomed = false;
     this.closeModal.emit();
   }
 

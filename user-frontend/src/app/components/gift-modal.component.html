@@ -17,31 +17,38 @@
       
       <!-- Left Side - Gift Image -->
       <div class="image-section">
-        <img 
-          [src]="getCurrentImage()" 
-          [alt]="gift.name"
-          class="gift-image">
+        <div class="image-container"
+             (mousemove)="onMouseMove($event)"
+             (mouseenter)="onMouseEnter()"
+             (mouseleave)="onMouseLeave()">
+          <img 
+            [src]="getCurrentImage()" 
+            [alt]="gift.name"
+            [style.transform]="isZoomed ? 'scale(2)' : 'scale(1)'"
+            [style.transform-origin]="isZoomed ? zoomX + '% ' + zoomY + '%' : 'center'"
+            class="gift-image">
         
-        <!-- Navigation Arrows -->
-        <button *ngIf="getImages().length > 1" 
-                (click)="prevImage(); $event.stopPropagation()" 
-                class="nav-arrow left"
-                aria-label="Previous image">
-          ‹
-        </button>
-        <button *ngIf="getImages().length > 1" 
-                (click)="nextImage(); $event.stopPropagation()" 
-                class="nav-arrow right"
-                aria-label="Next image">
-          ›
-        </button>
-        
-        <!-- Stock Badge -->
-        <div *ngIf="gift.stock < 10 && gift.stock > 0" class="stock-badge low-stock">
-          Only {{ gift.stock }} left!
-        </div>
-        <div *ngIf="gift.stock === 0" class="stock-badge out-of-stock">
-          Out of Stock
+          <!-- Navigation Arrows -->
+          <button *ngIf="getImages().length > 1" 
+                  (click)="prevImage(); $event.stopPropagation()" 
+                  class="nav-arrow left"
+                  aria-label="Previous image">
+            ‹
+          </button>
+          <button *ngIf="getImages().length > 1" 
+                  (click)="nextImage(); $event.stopPropagation()" 
+                  class="nav-arrow right"
+                  aria-label="Next image">
+            ›
+          </button>
+          
+          <!-- Stock Badge -->
+          <div *ngIf="gift.stock < 10 && gift.stock > 0" class="stock-badge low-stock">
+            Only {{ gift.stock }} left!
+          </div>
+          <div *ngIf="gift.stock === 0" class="stock-badge out-of-stock">
+            Out of Stock
+          </div>
         </div>
         
         <!-- Thumbnail Gallery -->
