@@ -79,7 +79,8 @@ import { CartService } from '../services/cart.service';
           <div *ngFor="let gift of filteredGifts" 
                style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1); transition: all 0.4s ease; cursor: pointer; position: relative;" 
                onmouseover="this.style.transform='translateY(-15px)'; this.style.boxShadow='0 20px 50px rgba(0,0,0,0.2)'" 
-               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(0,0,0,0.1)'">
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(0,0,0,0.1)'"
+               (click)="openGiftModal(gift)">
             
             <!-- Image Container -->
             <div style="position: relative; overflow: hidden; height: 250px; background: #f5f5f5;">
@@ -123,7 +124,7 @@ import { CartService } from '../services/cart.service';
                 </div>
                 <button 
                   class="btn btn-primary" 
-                  (click)="addToCart(gift._id)" 
+                  (click)="addToCart(gift._id); $event.stopPropagation()" 
                   [disabled]="gift.stock === 0"
                   style="padding: 12px 28px; font-size: 14px; font-weight: 700; white-space: nowrap;">
                   {{ gift.stock > 0 ? '🛒 Add' : 'Unavailable' }}
@@ -134,6 +135,13 @@ import { CartService } from '../services/cart.service';
         </div>
         </div>
       </div>
+      
+      <!-- Gift Details Modal -->
+      <app-gift-modal 
+        [gift]="selectedGift" 
+        [isOpen]="isModalOpen" 
+        (closeModal)="closeGiftModal()">
+      </app-gift-modal>
     </div>
   `
 })
@@ -143,6 +151,10 @@ export class ProductsComponent implements OnInit {
   categories: any[] = [];
   searchTerm: string = '';
   selectedCategory: string = '';
+  
+  // Modal state
+  selectedGift: any = null;
+  isModalOpen: boolean = false;
   
   currentSlide: number = 0;
   slides = [
@@ -205,6 +217,16 @@ export class ProductsComponent implements OnInit {
       next: () => { alert('Added to cart!'); },
       error: () => { alert('Please login to add items to cart'); }
     });
+  }
+
+  openGiftModal(gift: any): void {
+    this.selectedGift = gift;
+    this.isModalOpen = true;
+  }
+
+  closeGiftModal(): void {
+    this.isModalOpen = false;
+    this.selectedGift = null;
   }
 
   nextSlide(): void {

@@ -14,6 +14,7 @@ import { CheckoutComponent } from './components/checkout.component';
 import { OrdersComponent } from './components/orders.component';
 import { PaymentComponent } from './components/payment.component';
 import { OrderConfirmationComponent } from './components/order-confirmation.component';
+import { GiftModalComponent } from './components/gift-modal.component';
 
 import { AuthService } from './services/auth.service';
 import { GiftService } from './services/gift.service';
@@ -34,7 +35,8 @@ import { AuthGuard } from './guards/auth.guard';
     CheckoutComponent,
     OrdersComponent,
     PaymentComponent,
-    OrderConfirmationComponent
+    OrderConfirmationComponent,
+    GiftModalComponent
   ],
   imports: [
     BrowserModule,

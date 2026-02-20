@@ -1,0 +1,112 @@
+<!-- Modal Backdrop - Dark overlay behind modal -->
+<div *ngIf="isOpen && gift" 
+     class="modal-backdrop" 
+     (click)="onBackdropClick($event)"
+     [@fadeIn]>
+  
+  <!-- Modal Container - Main modal box -->
+  <div class="modal-container" [@slideIn]>
+    
+    <!-- Close Button - Top right X button -->
+    <button class="close-btn" (click)="close()" aria-label="Close modal">
+      ✕
+    </button>
+
+    <!-- Modal Content Grid - Split into image and details -->
+    <div class="modal-content">
+      
+      <!-- Left Side - Gift Image -->
+      <div class="image-section">
+        <img 
+          [src]="gift.image || 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=600'" 
+          [alt]="gift.name"
+          class="gift-image">
+        
+        <!-- Stock Badge -->
+        <div *ngIf="gift.stock < 10 && gift.stock > 0" class="stock-badge low-stock">
+          Only {{ gift.stock }} left!
+        </div>
+        <div *ngIf="gift.stock === 0" class="stock-badge out-of-stock">
+          Out of Stock
+        </div>
+      </div>
+
+      <!-- Right Side - Gift Details -->
+      <div class="details-section">
+        
+        <!-- Gift Name -->
+        <h2 class="gift-name">{{ gift.name }}</h2>
+        
+        <!-- Star Rating -->
+        <div class="rating">
+          <span *ngFor="let star of getStars(4.5)" class="star">
+            {{ star ? '★' : '☆' }}
+          </span>
+          <span class="rating-text">(4.5/5)</span>
+        </div>
+
+        <!-- Price -->
+        <div class="price-section">
+          <span class="price">₹{{ gift.price }}</span>
+          <span class="price-label">Inclusive of all taxes</span>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <h3 class="section-title">Description</h3>
+          <p class="description">{{ gift.description }}</p>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="quantity-section">
+          <h3 class="section-title">Quantity</h3>
+          <div class="quantity-controls">
+            <button 
+              class="qty-btn" 
+              (click)="decreaseQuantity()"
+              [disabled]="quantity <= 1">
+              −
+            </button>
+            <span class="qty-display">{{ quantity }}</span>
+            <button 
+              class="qty-btn" 
+              (click)="increaseQuantity()"
+              [disabled]="quantity >= gift.stock">
+              +
+            </button>
+          </div>
+          <span class="stock-info">{{ gift.stock }} available</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button 
+            class="btn btn-primary" 
+            (click)="addToCart()"
+            [disabled]="gift.stock === 0 || isAddingToCart">
+            {{ isAddingToCart ? 'Adding...' : gift.stock > 0 ? '🛒 Add to Cart' : 'Out of Stock' }}
+          </button>
+          <button class="btn btn-secondary" (click)="close()">
+            Cancel
+          </button>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="info-section">
+          <div class="info-item">
+            <span class="info-icon">🚚</span>
+            <span class="info-text">Free Delivery</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">↩️</span>
+            <span class="info-text">7 Days Return</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">✓</span>
+            <span class="info-text">Secure Payment</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
