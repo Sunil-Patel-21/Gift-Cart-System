@@ -17,6 +17,7 @@ import { OrderConfirmationComponent } from './components/order-confirmation.comp
 import { GiftModalComponent } from './components/gift-modal.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrderTrackingComponent } from './components/order-tracking/order-tracking.component';
+import { FooterComponent } from './components/footer.component';
 
 import { AuthService } from './services/auth.service';
 import { GiftService } from './services/gift.service';
@@ -41,7 +42,8 @@ import { AuthGuard } from './guards/auth.guard';
     OrderConfirmationComponent,
     GiftModalComponent,
     WishlistComponent,
-    OrderTrackingComponent
+    OrderTrackingComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
